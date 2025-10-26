@@ -1,26 +1,44 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import Hero from './components/Hero'
+import About from './components/About'
+import Projects from './components/Projects'
+import Contact from './components/Contact'
+import Lenis from '@studio-freight/lenis'
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    const lenis = new Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    })
+
+    const raf = (time) => {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+    const id = requestAnimationFrame(raf)
+
+    return () => cancelAnimationFrame(id)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#0f0f0f] text-white">
+      <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/50 to-transparent backdrop-blur-sm">
+        <a href="#home" className="text-white/90 hover:text-white font-semibold">Vibe</a>
+        <nav className="hidden sm:flex items-center gap-6 text-sm text-white/80">
+          <a href="#about" className="hover:text-white">About</a>
+          <a href="#projects" className="hover:text-white">Projects</a>
+          <a href="#contact" className="hover:text-white">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Contact />
+      </main>
     </div>
   )
 }
